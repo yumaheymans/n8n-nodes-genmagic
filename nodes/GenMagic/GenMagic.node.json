@@ -1,0 +1,42 @@
+{
+	"node": "n8n-nodes-genmagic.genMagic",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["AI", "Marketing"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/yumaheymans/n8n-nodes-genmagic#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/yumaheymans/n8n-nodes-genmagic#readme"
+			}
+		]
+	},
+	"alias": [
+		"AI image generator",
+		"Text to image",
+		"Image generation",
+		"Image editing",
+		"AI video generator",
+		"Text to video",
+		"Video generation",
+		"Text to speech",
+		"TTS",
+		"Voiceover",
+		"AI music generator",
+		"Music generation",
+		"Text generation",
+		"LLM",
+		"Logo generator",
+		"Sora",
+		"Veo",
+		"FLUX",
+		"GPT Image",
+		"Seedream",
+		"Recraft",
+		"Lyria"
+	]
+}

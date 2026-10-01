@@ -1,19 +1,33 @@
 {
-	"name": "n8n-nodes-<...>",
+	"name": "n8n-nodes-genmagic",
 	"version": "0.1.0",
-	"description": "",
+	"description": "n8n community node for GenMagic: generate images, video, music, speech and text with 500+ AI models (Sora, Veo, FLUX, GPT Image and more) through one API key and one pay-as-you-go balance.",
 	"license": "MIT",
-	"homepage": "",
+	"homepage": "https://genmagic.co/?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms",
 	"keywords": [
-		"n8n-community-node-package"
+		"n8n-community-node-package",
+		"n8n",
+		"genmagic",
+		"ai",
+		"image-generation",
+		"video-generation",
+		"text-to-speech",
+		"music-generation",
+		"text-to-image",
+		"text-to-video",
+		"llm"
 	],
 	"author": {
-		"name": "",
-		"email": ""
+		"name": "GenMagic",
+		"email": "hello@genmagic.co",
+		"url": "https://genmagic.co"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/<...>/n8n-nodes-<...>.git"
+		"url": "https://github.com/yumaheymans/n8n-nodes-genmagic.git"
+	},
+	"bugs": {
+		"url": "https://github.com/yumaheymans/n8n-nodes-genmagic/issues"
 	},
 	"scripts": {
 		"build": "n8n-node build",
@@ -22,29 +36,29 @@
 		"lint": "n8n-node lint",
 		"lint:fix": "n8n-node lint --fix",
 		"release": "n8n-node release",
-		"prepublishOnly": "n8n-node prerelease"
+		"prepublishOnly": "n8n-node prerelease",
+		"test": "n8n-node build && node --test \"test/**/*.test.mjs\""
 	},
 	"files": [
-		"dist"
+		"dist",
+		"!dist/tsconfig.tsbuildinfo"
 	],
 	"n8n": {
 		"n8nNodesApiVersion": 1,
 		"strict": true,
 		"credentials": [
-			"dist/credentials/GithubIssuesApi.credentials.js",
-			"dist/credentials/GithubIssuesOAuth2Api.credentials.js"
+			"dist/credentials/GenMagicApi.credentials.js"
 		],
 		"nodes": [
-			"dist/nodes/GithubIssues/GithubIssues.node.js",
-			"dist/nodes/Example/Example.node.js"
+			"dist/nodes/GenMagic/GenMagic.node.js"
 		]
 	},
 	"devDependencies": {
-		"@n8n/node-cli": "*",
-		"eslint": "9.39.4",
-		"prettier": "3.8.3",
-		"release-it": "20.2.0",
-		"typescript": "5.9.3"
+		"@n8n/node-cli": "^0.50.4",
+		"eslint": "9.32.0",
+		"prettier": "3.6.2",
+		"release-it": "^19.0.4",
+		"typescript": "5.9.2"
 	},
 	"peerDependencies": {
 		"n8n-workflow": "*"
