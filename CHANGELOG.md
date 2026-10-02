@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 (2026-10-02)
+
+- Node categories set to Marketing & Content and Productivity, from the categories n8n supports for community nodes.
+
 ## 0.1.0 (2026-10-02)
 
 - First release of the GenMagic node for n8n.
