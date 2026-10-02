@@ -8,6 +8,7 @@ import { test } from 'node:test';
 const require = createRequire(import.meta.url);
 const { GenMagic } = require('../dist/nodes/GenMagic/GenMagic.node.js');
 const { NodeApiError, NodeOperationError } = require('n8n-workflow');
+const { version: PACKAGE_JSON_VERSION } = require('../package.json');
 
 const MEDIA = 'https://tlwdqzfibvgektzgdfqa.supabase.co/storage/v1/object/public/generations/a.png';
 
@@ -75,7 +76,7 @@ test('image: sends the prompt and options, returns the URL, cost and the file as
 	assert.equal(calls[0].method, 'POST');
 	assert.equal(calls[0].url, 'https://genmagic.co/api/v1/images/generations');
 	assert.deepEqual(calls[0].body, { prompt: 'a red fox', size: '1792x1024', type: 'logo' });
-	assert.equal(calls[0].headers['X-GenMagic-Client'], 'n8n-node/0.1.0');
+	assert.equal(calls[0].headers['X-GenMagic-Client'], `n8n-node/${PACKAGE_JSON_VERSION}`);
 	assert.equal(items.length, 1);
 	assert.deepEqual(items[0].json, { url: MEDIA, model: 'auto', index: 0, cost_usd: 0.00216, balance_usd: 0.145 });
 	assert.equal(items[0].binary.picture.mimeType, 'image/png');

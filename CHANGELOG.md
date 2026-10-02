@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 (2026-10-02)
+
+- The X-GenMagic-Client header carries the package's own version again (0.1.1 still sent 0.1.0); a test now fails if the two differ.
+
 ## 0.1.1 (2026-10-02)
 
 - Node categories set to Marketing & Content and Productivity, from the categories n8n supports for community nodes.

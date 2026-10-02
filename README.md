@@ -76,6 +76,10 @@ Tested with n8n 2.41.5. The package has no runtime dependencies.
 
 ## Version history
 
+### 0.1.2
+
+The node identifies its own version to GenMagic correctly.
+
 ### 0.1.1
 
 The node is listed under Marketing & Content and Productivity in the nodes panel.

@@ -21,8 +21,8 @@ import { NodeApiError } from 'n8n-workflow';
 
 export const BASE_URL = 'https://genmagic.co';
 
-/** This package's version, sent as X-GenMagic-Client. Keep it in step with package.json. */
-export const PACKAGE_VERSION = '0.1.0';
+/** This package's version, sent as X-GenMagic-Client. The tests fail when it differs from package.json. */
+export const PACKAGE_VERSION = '0.1.2';
 
 const UTM = 'utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms';
 const KEYS_URL = `${BASE_URL}/developers?${UTM}`;
