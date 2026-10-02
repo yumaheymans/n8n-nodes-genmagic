@@ -4,7 +4,7 @@ This is an n8n community node. It lets you use [GenMagic](https://genmagic.co/?u
 
 GenMagic gives you one API key and one pay-as-you-go balance for 500+ AI models from every major lab: images (GPT Image, FLUX, Seedream, Recraft and more), video (Sora, Veo, Seedance, Hailuo and more), speech, music and text. Pick a model per step, or let GenMagic pick one for you, and get the generated file straight into your workflow.
 
-[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/sustainable-use-license/) workflow automation platform.
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/n8n-community-license/community-license/) workflow automation platform.
 
 [Installation](#installation) ·
 [Operations](#operations) ·
@@ -17,7 +17,7 @@ GenMagic gives you one API key and one pay-as-you-go balance for 500+ AI models 
 
 ## Installation
 
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation and install the package `n8n-nodes-genmagic`.
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation-and-management/gui-installation/) in the n8n community nodes documentation and install the package `n8n-nodes-genmagic`.
 
 ## Operations
 
@@ -58,7 +58,7 @@ Example workflow ideas:
 
 ## Pricing
 
-The node is free. Generations are billed to your GenMagic balance at the price shown for each model, and every result reports its cost and your remaining balance. Add credits at [genmagic.co/pricing](https://genmagic.co/pricing?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms).
+The node is free. Generations are billed to your GenMagic balance. The model dropdowns show each model's listed price (per 1M tokens for text, per image, per minute of speech, and the lowest per-second rate for video); the exact amount a generation cost comes back with its result as `cost_usd`, together with your remaining balance as `balance_usd`. Add credits at [genmagic.co/pricing](https://genmagic.co/pricing?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms).
 
 If a run fails with "Your GenMagic balance is too low for this generation", add credits and run it again. Nothing is billed for a request that is refused or fails.
 
@@ -68,7 +68,7 @@ Tested with n8n 2.41.5. The package has no runtime dependencies.
 
 ## Resources
 
-- [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
 - [GenMagic API documentation](https://genmagic.co/developers?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms)
 - [GenMagic OpenAPI specification](https://genmagic.co/openapi.json)
 - [GenMagic model library](https://genmagic.co/models?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms)

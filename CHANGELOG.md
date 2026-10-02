@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (2026-10-01)
+## 0.1.0 (2026-10-02)
 
 - First release of the GenMagic node for n8n.
 - Image: Generate (prompt or reference image, size, up to 4 images, logo mode).
