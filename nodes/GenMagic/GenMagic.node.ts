@@ -22,6 +22,7 @@ import {
 	getTextModels,
 	getVideoModels,
 } from './models';
+import type { ModelParameter } from './descriptions/shared';
 import { downloadFile, fileName, genMagicRequest, header, metering, mimeType } from './transport';
 
 /** How often a video job is checked while the node waits for it. */
@@ -37,7 +38,7 @@ export class GenMagic implements INodeType {
 		name: 'genMagic',
 		icon: { light: 'file:genmagic.svg', dark: 'file:genmagic.dark.svg' },
 		group: ['transform'],
-		version: [1],
+		version: [1, 2],
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description:
 			'Generate images, video, music, speech and text with 500+ AI models through one GenMagic API key',
@@ -166,9 +167,10 @@ export class GenMagic implements INodeType {
 	}
 }
 
-/** The chosen model, or undefined to let GenMagic pick. */
-function chosenModel(this: IExecuteFunctions, i: number): string | undefined {
-	const model = String(this.getNodeParameter('model', i, AUTO_MODEL) ?? '').trim();
+/** The chosen model, or undefined to let GenMagic pick. Version 1 nodes share one `model` parameter (see modelFields). */
+function chosenModel(this: IExecuteFunctions, i: number, name: ModelParameter): string | undefined {
+	const parameter = this.getNode().typeVersion >= 2 ? name : 'model';
+	const model = String(this.getNodeParameter(parameter, i, AUTO_MODEL) ?? '').trim();
 	return model && model !== AUTO_MODEL ? model : undefined;
 }
 
@@ -227,7 +229,7 @@ async function referenceImage(
 async function generateImage(this: IExecuteFunctions, i: number): Promise<Output[]> {
 	const options = this.getNodeParameter('options', i, {}) as IDataObject;
 	const body: IDataObject = { prompt: prompt.call(this, i, 'prompt', 'A prompt') };
-	const model = chosenModel.call(this, i);
+	const model = chosenModel.call(this, i, 'imageModel');
 	if (model) body.model = model;
 	if (options.size) body.size = options.size;
 	if (options.type === 'logo') body.type = 'logo';
@@ -274,7 +276,7 @@ async function generateImage(this: IExecuteFunctions, i: number): Promise<Output
 async function generateVideo(this: IExecuteFunctions, i: number): Promise<Output> {
 	const options = this.getNodeParameter('options', i, {}) as IDataObject;
 	const body: IDataObject = { prompt: prompt.call(this, i, 'prompt', 'A prompt') };
-	const model = chosenModel.call(this, i);
+	const model = chosenModel.call(this, i, 'videoModel');
 	if (model) body.model = model;
 	if (options.aspect_ratio) body.aspect_ratio = options.aspect_ratio;
 	if (typeof options.duration === 'number' && options.duration > 0)
@@ -386,7 +388,7 @@ async function generateAudio(
 	i: number,
 	kind: 'speech' | 'music',
 ): Promise<Output> {
-	const model = chosenModel.call(this, i);
+	const model = chosenModel.call(this, i, kind === 'speech' ? 'speechModel' : 'musicModel');
 	let body: IDataObject;
 	if (kind === 'speech') {
 		const options = this.getNodeParameter('options', i, {}) as IDataObject;
@@ -430,7 +432,7 @@ async function generateAudio(
 async function generateText(this: IExecuteFunctions, i: number): Promise<Output> {
 	const options = this.getNodeParameter('options', i, {}) as IDataObject;
 	const body: IDataObject = { prompt: prompt.call(this, i, 'prompt', 'A prompt') };
-	const model = chosenModel.call(this, i);
+	const model = chosenModel.call(this, i, 'textModel');
 	if (model) body.model = model;
 	if (typeof options.type === 'string' && options.type !== 'text') body.type = options.type;
 	if (typeof options.system === 'string' && options.system.trim())

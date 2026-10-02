@@ -1,7 +1,8 @@
 /**
  * The one way this node talks to GenMagic's public REST API (https://genmagic.co/openapi.json).
  *
- * Every call authenticates with the user's GenMagic credential (a Bearer API key), names
+ * Every call authenticates with the user's GenMagic credential (a Bearer API key), except the
+ * read of the public model catalog behind the dropdowns (genMagicPublicRequest). Every call names
  * this integration in the X-GenMagic-Client header so the key owner's usage through n8n
  * can be told apart from their other API use, and turns GenMagic's OpenAI-style error
  * body ({ error: { message, code } }) into one clear NodeApiError. Generations report
@@ -22,7 +23,7 @@ import { NodeApiError } from 'n8n-workflow';
 export const BASE_URL = 'https://genmagic.co';
 
 /** This package's version, sent as X-GenMagic-Client. The tests fail when it differs from package.json. */
-export const PACKAGE_VERSION = '0.1.2';
+export const PACKAGE_VERSION = '0.1.3';
 
 const UTM = 'utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms';
 const KEYS_URL = `${BASE_URL}/developers?${UTM}`;
@@ -49,11 +50,37 @@ export interface RequestOptions {
 	itemIndex?: number;
 }
 
+/** An authenticated call with the user's GenMagic credential. */
 export async function genMagicRequest(
 	this: Context,
 	method: IHttpRequestMethods,
 	path: string,
-	{ body, qs, expectFile = false, timeout = 180_000, itemIndex }: RequestOptions = {},
+	options: RequestOptions = {},
+): Promise<GenMagicResponse> {
+	return await send.call(this, true, method, path, options);
+}
+
+/**
+ * A call that needs no key: GenMagic serves its model catalog publicly (GET /api/v1/models).
+ * The model dropdowns use it because n8n loads a newly added node's options BEFORE it attaches
+ * the saved credential (and skips the reload while that first request runs), so a catalog
+ * that depended on the credential would show "Error fetching options" on every new node.
+ */
+export async function genMagicPublicRequest(
+	this: Context,
+	method: IHttpRequestMethods,
+	path: string,
+	options: RequestOptions = {},
+): Promise<GenMagicResponse> {
+	return await send.call(this, false, method, path, options);
+}
+
+async function send(
+	this: Context,
+	authenticate: boolean,
+	method: IHttpRequestMethods,
+	path: string,
+	{ body, qs, expectFile = false, timeout = 180_000, itemIndex }: RequestOptions,
 ): Promise<GenMagicResponse> {
 	const options: IHttpRequestOptions = {
 		method,
@@ -70,11 +97,11 @@ export async function genMagicRequest(
 		ignoreHttpStatusErrors: true,
 		timeout,
 	};
-	const response = (await this.helpers.httpRequestWithAuthentication.call(
-		this,
-		'genMagicApi',
-		options,
-	)) as IN8nHttpFullResponse;
+	const response = (
+		authenticate
+			? await this.helpers.httpRequestWithAuthentication.call(this, 'genMagicApi', options)
+			: await this.helpers.httpRequest(options)
+	) as IN8nHttpFullResponse;
 	if (response.statusCode >= 400) {
 		throw apiError(this.getNode(), response.statusCode, response.body, itemIndex);
 	}

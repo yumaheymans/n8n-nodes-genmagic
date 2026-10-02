@@ -1,6 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
 
-import { modelField } from './shared';
+import { modelFields } from './shared';
 
 const show = { resource: ['text'], operation: ['generate'] };
 
@@ -35,7 +35,7 @@ export const textFields: INodeProperties[] = [
 		description: 'What to write or produce',
 		displayOptions: { show },
 	},
-	modelField(show, 'getTextModels', 'text'),
+	...modelFields('textModel', show, 'getTextModels', 'text'),
 	{
 		displayName: 'Options',
 		name: 'options',

@@ -1,6 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
 
-import { fileFields, modelField } from './shared';
+import { fileFields, modelFields } from './shared';
 
 const speech = { resource: ['audio'], operation: ['generateSpeech'] };
 const music = { resource: ['audio'], operation: ['generateMusic'] };
@@ -41,7 +41,7 @@ export const audioFields: INodeProperties[] = [
 		description: 'The text to speak',
 		displayOptions: { show: speech },
 	},
-	modelField(speech, 'getSpeechModels', 'text-to-speech'),
+	...modelFields('speechModel', speech, 'getSpeechModels', 'text-to-speech'),
 	{
 		displayName: 'Options',
 		name: 'options',
@@ -72,6 +72,6 @@ export const audioFields: INodeProperties[] = [
 		description: 'Genre, mood, instruments and tempo of the track',
 		displayOptions: { show: music },
 	},
-	modelField(music, 'getMusicModels', 'music'),
+	...modelFields('musicModel', music, 'getMusicModels', 'music'),
 	...fileFields(music, { optional: false }),
 ];

@@ -2,11 +2,12 @@
  * The model dropdowns. Each lists GenMagic's live catalog for one kind of output
  * (GET /api/v1/models?category=...), newest first, with the price GenMagic itself
  * publishes for that model, so a new model appears here on its own. Reading the
- * catalog spends no credits.
+ * catalog spends no credits, and it needs no key, so the list is there even before
+ * n8n attaches the credential to a new node (see catalog below).
  */
 import type { IDataObject, ILoadOptionsFunctions, INodePropertyOptions } from 'n8n-workflow';
 
-import { genMagicRequest } from './transport';
+import { genMagicPublicRequest, genMagicRequest } from './transport';
 
 /** The model value that lets GenMagic choose (the request then omits `model`). */
 export const AUTO_MODEL = 'auto';
@@ -23,8 +24,22 @@ export interface CatalogModel extends IDataObject {
 
 type Category = 'text' | 'image' | 'audio' | 'video';
 
+/** Whether this node has a GenMagic credential attached yet. */
+async function hasCredential(this: ILoadOptionsFunctions): Promise<boolean> {
+	try {
+		await this.getCredentials('genMagicApi');
+		return true;
+	} catch {
+		return false;
+	}
+}
+
 async function catalog(this: ILoadOptionsFunctions, category: Category): Promise<CatalogModel[]> {
-	const { body } = await genMagicRequest.call(this, 'GET', '/api/v1/models', {
+	// n8n asks for a newly added node's options BEFORE it attaches the saved credential (and
+	// skips the reload while that first request runs), so without a credential the catalog is
+	// read from GenMagic's public catalog, which needs no key.
+	const request = (await hasCredential.call(this)) ? genMagicRequest : genMagicPublicRequest;
+	const { body } = await request.call(this, 'GET', '/api/v1/models', {
 		qs: { category },
 		timeout: 30_000,
 	});

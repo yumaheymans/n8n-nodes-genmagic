@@ -1,6 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
 
-import { fileFields, modelField } from './shared';
+import { fileFields, modelFields } from './shared';
 
 const generate = { resource: ['video'], operation: ['generate'] };
 const get = { resource: ['video'], operation: ['get'] };
@@ -42,7 +42,7 @@ export const videoFields: INodeProperties[] = [
 		description: 'What should happen in the clip',
 		displayOptions: { show: generate },
 	},
-	modelField(generate, 'getVideoModels', 'text-to-video'),
+	...modelFields('videoModel', generate, 'getVideoModels', 'text-to-video'),
 	{
 		displayName: 'Options',
 		name: 'options',

@@ -1,6 +1,6 @@
 import type { INodeProperties } from 'n8n-workflow';
 
-import { fileFields, modelField } from './shared';
+import { fileFields, modelFields } from './shared';
 
 const show = { resource: ['image'], operation: ['generate'] };
 
@@ -37,7 +37,7 @@ export const imageFields: INodeProperties[] = [
 			'What the image should show, or the change to make when a reference image is given',
 		displayOptions: { show },
 	},
-	modelField(show, 'getImageModels', 'image'),
+	...modelFields('imageModel', show, 'getImageModels', 'image'),
 	{
 		displayName: 'Options',
 		name: 'options',

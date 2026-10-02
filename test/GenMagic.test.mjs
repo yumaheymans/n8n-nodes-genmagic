@@ -12,15 +12,25 @@ const { version: PACKAGE_JSON_VERSION } = require('../package.json');
 
 const MEDIA = 'https://tlwdqzfibvgektzgdfqa.supabase.co/storage/v1/object/public/generations/a.png';
 
-/** A fake IExecuteFunctions. `api` answers authenticated GenMagic calls, `media` answers downloads. */
-function context({ params, api = [], media = {}, continueOnFail = false, binary = {} }) {
+/**
+ * A fake IExecuteFunctions. `api` answers authenticated GenMagic calls, `publicApi` answers calls
+ * made without the credential (the public model catalog), `media` answers downloads.
+ */
+function context({ params, api = [], publicApi = [], media = {}, continueOnFail = false, binary = {}, typeVersion = 1, credential = true }) {
 	const calls = [];
+	const publicCalls = [];
 	const downloads = [];
 	const queue = [...api];
+	const publicQueue = [...publicApi];
 	const ctx = {
 		getInputData: () => [{ json: {}, binary }],
-		getNode: () => ({ id: '1', name: 'GenMagic', type: 'n8n-nodes-genmagic.genMagic', typeVersion: 1, position: [0, 0], parameters: {} }),
+		getNode: () => ({ id: '1', name: 'GenMagic', type: 'n8n-nodes-genmagic.genMagic', typeVersion, position: [0, 0], parameters: {} }),
 		getNodeParameter: (name, _i, fallback) => (name in params ? params[name] : fallback),
+		async getCredentials(type) {
+			assert.equal(type, 'genMagicApi');
+			if (!credential) throw new Error('Node does not have any credentials set');
+			return { apiKey: 'gm_live_test' };
+		},
 		continueOnFail: () => continueOnFail,
 		helpers: {
 			async httpRequestWithAuthentication(credentialType, options) {
@@ -31,6 +41,12 @@ function context({ params, api = [], media = {}, continueOnFail = false, binary 
 				return { statusCode: 200, headers: {}, ...next };
 			},
 			async httpRequest(options) {
+				if (options.url.startsWith('https://genmagic.co/api/')) {
+					publicCalls.push(options);
+					const next = publicQueue.shift();
+					assert.ok(next, `unexpected keyless request ${options.method} ${options.url}`);
+					return { statusCode: 200, headers: {}, ...next };
+				}
 				downloads.push(options.url);
 				const file = media[options.url];
 				return file
@@ -50,7 +66,7 @@ function context({ params, api = [], media = {}, continueOnFail = false, binary 
 			},
 		},
 	};
-	return { ctx, calls, downloads };
+	return { ctx, calls, publicCalls, downloads };
 }
 
 async function run(ctx) {
@@ -292,23 +308,73 @@ test('errors: with Continue On Fail the error becomes an item', async () => {
 	assert.deepEqual(items, [{ json: { error: 'GenMagic rejected the API key' }, pairedItem: { item: 0 } }]);
 });
 
-test('model dropdowns: Auto first, newest first, prices from the catalog, edit-only video models left out', async () => {
-	const { ctx, calls } = context({
-		params: {},
-		api: [
-			{
-				body: {
-					data: [
-						{ id: 'old/t2v', name: 'Old', created: 1, pricing: { unit: 'second', usd_per_unit: 0.05 }, capabilities: { text_to_video: true } },
-						{ id: 'bfl/edit', name: 'Edit', created: 3, pricing: { unit: 'second', usd_per_unit: 0.1 }, capabilities: { text_to_video: false } },
-						{ id: 'new/t2v', name: 'New', created: 2, pricing: { unit: 'second', usd_per_unit: 0.023056 }, capabilities: {} },
-					],
-				},
-			},
+const CATALOG = {
+	body: {
+		data: [
+			{ id: 'old/t2v', name: 'Old', created: 1, pricing: { unit: 'second', usd_per_unit: 0.05 }, capabilities: { text_to_video: true } },
+			{ id: 'bfl/edit', name: 'Edit', created: 3, pricing: { unit: 'second', usd_per_unit: 0.1 }, capabilities: { text_to_video: false } },
+			{ id: 'new/t2v', name: 'New', created: 2, pricing: { unit: 'second', usd_per_unit: 0.023056 }, capabilities: {} },
 		],
-	});
+	},
+};
+
+test('model dropdowns: Auto first, newest first, prices from the catalog, edit-only video models left out', async () => {
+	const { ctx, calls, publicCalls } = context({ params: {}, api: [CATALOG] });
 	const options = await new GenMagic().methods.loadOptions.getVideoModels.call(ctx);
 	assert.deepEqual(calls[0].qs, { category: 'video' });
+	assert.equal(publicCalls.length, 0);
 	assert.deepEqual(options.map((o) => o.value), ['auto', 'new/t2v', 'old/t2v']);
 	assert.equal(options[1].name, 'New ($0.0231/second)');
+});
+
+test('model dropdowns: without a credential the catalog is read keyless', async () => {
+	// n8n asks for a new node's options before it attaches the credential; GenMagic serves the
+	// catalog publicly, so the list loads instead of "Error fetching options".
+	const { ctx, calls, publicCalls } = context({ params: {}, credential: false, publicApi: [CATALOG] });
+	const options = await new GenMagic().methods.loadOptions.getVideoModels.call(ctx);
+	assert.equal(calls.length, 0);
+	assert.equal(publicCalls[0].url, 'https://genmagic.co/api/v1/models');
+	assert.deepEqual(publicCalls[0].qs, { category: 'video' });
+	assert.equal(publicCalls[0].headers.Authorization, undefined);
+	assert.equal(publicCalls[0].headers['X-GenMagic-Client'], `n8n-node/${PACKAGE_JSON_VERSION}`);
+	assert.deepEqual(options.map((o) => o.value), ['auto', 'new/t2v', 'old/t2v']);
+});
+
+test('model dropdowns: a failed catalog read is a clear error', async () => {
+	const { ctx } = context({ params: {}, credential: false, publicApi: [{ statusCode: 503, body: { error: { message: 'Catalog unavailable' } } }] });
+	await assert.rejects(new GenMagic().methods.loadOptions.getImageModels.call(ctx), /GenMagic could not complete the request/);
+});
+
+// Version 2 gives every operation its own model parameter, so switching a node's resource can
+// never carry one kind's model into another; version 1 keeps the one shared `model` parameter.
+for (const [label, params, endpoint, modelParameter] of [
+	['image', { resource: 'image', operation: 'generate', prompt: 'x', downloadFile: false }, '/api/v1/images/generations', 'imageModel'],
+	['video', { resource: 'video', operation: 'generate', prompt: 'x', waitForCompletion: false }, '/api/v1/videos', 'videoModel'],
+	['speech', { resource: 'audio', operation: 'generateSpeech', input: 'x', downloadFile: false }, '/api/v1/audio/speech', 'speechModel'],
+	['music', { resource: 'audio', operation: 'generateMusic', prompt: 'x', downloadFile: false }, '/api/v1/audio/music', 'musicModel'],
+	['text', { resource: 'text', operation: 'generate', prompt: 'x' }, '/api/v1/text', 'textModel'],
+]) {
+	test(`models per operation: a version 2 ${label} node reads ${modelParameter}, version 1 reads model`, async () => {
+		const answer = label === 'speech' || label === 'music'
+			? { body: Buffer.from('AUDIO'), headers: { 'content-type': 'audio/mpeg', 'x-media-url': MEDIA } }
+			: { body: { id: 'job', status: 'queued', data: [{ url: MEDIA }], text: 'ok' } };
+		const v2 = context({ typeVersion: 2, params: { ...params, model: 'stale/other-kind', [modelParameter]: 'chosen/model' }, api: [answer] });
+		await run(v2.ctx);
+		assert.equal(v2.calls[0].url, `https://genmagic.co${endpoint}`);
+		assert.equal(v2.calls[0].body.model, 'chosen/model');
+
+		const v1 = context({ typeVersion: 1, params: { ...params, model: 'saved/model', [modelParameter]: 'ignored/model' }, api: [answer] });
+		await run(v1.ctx);
+		assert.equal(v1.calls[0].body.model, 'saved/model');
+	});
+}
+
+test('models per operation: every version 2 model parameter is distinct, and version 1 keeps model', () => {
+	const props = new GenMagic().description.properties.filter((p) => p.displayName === 'Model Name or ID');
+	const v2 = props.filter((p) => p.displayOptions.show['@version'].includes(2)).map((p) => p.name);
+	const v1 = props.filter((p) => p.displayOptions.show['@version'].includes(1)).map((p) => p.name);
+	assert.deepEqual([...v2].sort(), ['imageModel', 'musicModel', 'speechModel', 'textModel', 'videoModel']);
+	assert.deepEqual(new Set(v1), new Set(['model']));
+	assert.equal(v1.length, 5);
+	assert.deepEqual(new GenMagic().description.version, [1, 2]);
 });

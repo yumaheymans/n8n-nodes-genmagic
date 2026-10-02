@@ -5,21 +5,35 @@ import { AUTO_MODEL } from '../models';
 const EXPRESSION_HINT =
 	'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>';
 
-/** The model dropdown for one resource/operation, listing GenMagic's live catalog. */
-export function modelField(
+/** The name of one operation's model parameter (node version 2 and later). */
+export type ModelParameter = 'imageModel' | 'videoModel' | 'speechModel' | 'musicModel' | 'textModel';
+
+/**
+ * The model dropdown for one resource/operation, listing GenMagic's live catalog.
+ *
+ * Node version 1 used ONE parameter, `model`, for every resource. n8n keeps a parameter's
+ * value when only its displayOptions change and cannot check it against a dynamic list, so
+ * switching a node from Image to Audio kept the image model as the speech model. From
+ * version 2 each operation has its own parameter; version 1 keeps `model`, so a workflow
+ * saved with 0.1.x runs exactly as before.
+ */
+export function modelFields(
+	name: ModelParameter,
 	show: { resource: string[]; operation: string[] },
 	loadOptionsMethod: string,
 	what: string,
-): INodeProperties {
-	return {
+): INodeProperties[] {
+	const field = {
 		displayName: 'Model Name or ID',
-		name: 'model',
-		type: 'options',
+		type: 'options' as const,
 		typeOptions: { loadOptionsMethod },
 		default: AUTO_MODEL,
 		description: `The ${what} model to use, with its GenMagic price. Auto lets GenMagic pick. ${EXPRESSION_HINT}.`,
-		displayOptions: { show },
 	};
+	return [
+		{ ...field, name: 'model', displayOptions: { show: { ...show, '@version': [1] } } },
+		{ ...field, name, displayOptions: { show: { ...show, '@version': [2] } } },
+	];
 }
 
 /** Whether to add the generated file to the item as binary data, and where. */

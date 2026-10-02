@@ -64,7 +64,7 @@ If a run fails with "Your GenMagic balance is too low for this generation", add 
 
 ## Compatibility
 
-Tested with n8n 2.41.5. The package has no runtime dependencies.
+Tested with n8n 2.41.6. The package has no runtime dependencies.
 
 ## Resources
 
@@ -75,6 +75,10 @@ Tested with n8n 2.41.5. The package has no runtime dependencies.
 - Support: hello@genmagic.co
 
 ## Version history
+
+### 0.1.3
+
+Each operation has its own model dropdown, so switching a node from one resource to another (Image to Audio, for example) no longer carries the previous resource's model along. Nodes saved with an earlier version keep their model and run unchanged. The model dropdowns also load before a credential is attached, from GenMagic's public model catalog.
 
 ### 0.1.2
 
