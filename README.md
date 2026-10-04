@@ -2,7 +2,7 @@
 
 This is an n8n community node. It lets you use [GenMagic](https://genmagic.co/?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms) in your n8n workflows.
 
-GenMagic gives you one API key and one pay-as-you-go balance for 500+ AI models from every major lab: images (GPT Image, FLUX, Seedream, Recraft and more), video (Sora, Veo, Seedance, Hailuo and more), speech, music and text. Pick a model per step, or let GenMagic pick one for you, and get the generated file straight into your workflow.
+GenMagic gives you one API key and one pay-as-you-go balance for 450+ AI models from every major lab: images (GPT Image, FLUX, Seedream, Recraft and more), video (Sora, Veo, Seedance, Hailuo and more), speech, music and text. Pick a model per step, or let GenMagic pick one for you, and get the generated file straight into your workflow.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/n8n-community-license/community-license/) workflow automation platform.
 
