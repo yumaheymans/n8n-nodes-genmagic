@@ -1,9 +1,13 @@
 # Changelog
 
+## 0.1.5 (2026-10-08)
+
+- Categories back to Marketing & Content and Productivity, with no subcategories. n8n's community package scan accepts only its community node categories, and AI is not one of them, so 0.1.4 failed the scan that n8n runs before it ships a version. The search aliases from 0.1.4 stay, and the codex test now checks the categories against n8n's list.
+
 ## 0.1.4 (2026-10-08)
 
 - The codex (categories, docs links and search aliases) is now declared in the node's description. n8n builds the verified-node listing that its nodes panel searches from the description alone, so the aliases kept only in GenMagic.node.json never reached it, and a search for "video" or "text to speech" did not show GenMagic under More from the community. GenMagic.node.json repeats the same values, and a test keeps the two equal.
-- Categories: AI (with the subcategories n8n's own multimodal vendor nodes use) and Marketing & Content. Aliases name the media the node makes and the model families GenMagic runs today (Veo, Kling, Seedance, Hailuo, Runway, Nano Banana, GPT Image, FLUX, Seedream, Recraft, Lyria); Sora is gone, since GenMagic no longer offers it.
+- Categories: AI (with the subcategories n8n's own multimodal vendor nodes use) and Marketing & Content (replaced in 0.1.5). Aliases name the media the node makes and the model families GenMagic runs today (Veo, Kling, Seedance, Hailuo, Runway, Nano Banana, GPT Image, FLUX, Seedream, Recraft, Lyria); Sora is gone, since GenMagic no longer offers it.
 - The node's docs links point to GenMagic's n8n and authentication docs.
 - README: installing from the nodes panel as a verified community node.
 

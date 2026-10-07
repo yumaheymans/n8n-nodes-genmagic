@@ -391,6 +391,11 @@ test('codex: declared in the description, which is all n8n lists and searches, a
 		assert.ok(codex.alias.includes(word), `alias ${word}`);
 	}
 	assert.equal(new Set(codex.alias.map((a) => a.toLowerCase())).size, codex.alias.length, 'no duplicate aliases');
-	assert.ok(codex.categories.includes('AI'));
+	// The categories n8n's package scan accepts for community nodes (@n8n/eslint-plugin-community-nodes,
+	// valid-node-categories). A category outside them fails the scan and n8n does not ship the version.
+	const communityCategories = ['Data & Storage', 'Finance & Accounting', 'Marketing & Content', 'Productivity', 'Miscellaneous', 'Sales', 'Development', 'Analytics', 'Communication', 'Utility'];
+	assert.ok(codex.categories.length > 0);
+	for (const category of codex.categories) assert.ok(communityCategories.includes(category), `category ${category}`);
+	assert.equal(codex.subcategories, undefined, 'subcategories place a node in n8n sections reserved for its own nodes');
 	assert.ok(codex.resources.primaryDocumentation[0].url.startsWith('https://genmagic.co/developers'));
 });

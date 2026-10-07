@@ -45,9 +45,8 @@ const DOCS =
  * Model names here are model families GenMagic's catalog runs today: drop one when it leaves.
  */
 const GENMAGIC_CODEX: NonNullable<INodeTypeDescription['codex']> = {
-	categories: ['AI', 'Marketing & Content'],
-	// The subcategories n8n's own multimodal vendor nodes (OpenAI, Google Gemini, MiniMax) use.
-	subcategories: { AI: ['Agents', 'Miscellaneous', 'Root Nodes'] },
+	// Only n8n's community node categories pass its package scan (AI is reserved for n8n's own nodes).
+	categories: ['Marketing & Content', 'Productivity'],
 	resources: {
 		primaryDocumentation: [{ url: `${DOCS}#n8n` }],
 		credentialDocumentation: [{ url: `${DOCS}#auth` }],

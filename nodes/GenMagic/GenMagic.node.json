@@ -2,10 +2,7 @@
 	"node": "n8n-nodes-genmagic.genMagic",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
-	"categories": ["AI", "Marketing & Content"],
-	"subcategories": {
-		"AI": ["Agents", "Miscellaneous", "Root Nodes"]
-	},
+	"categories": ["Marketing & Content", "Productivity"],
 	"resources": {
 		"primaryDocumentation": [
 			{
