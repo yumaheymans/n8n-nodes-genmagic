@@ -1,7 +1,7 @@
 {
 	"name": "n8n-nodes-genmagic",
-	"version": "0.1.3",
-	"description": "n8n community node for GenMagic: generate images, video, music, speech and text with 450+ AI models (Sora, Veo, FLUX, GPT Image and more) through one API key and one pay-as-you-go balance.",
+	"version": "0.1.4",
+	"description": "n8n community node for GenMagic: generate images, video, music, speech and text with 450+ AI models (Veo, Kling, Seedance, FLUX, GPT Image, Nano Banana and more) through one API key and one pay-as-you-go balance.",
 	"license": "MIT",
 	"homepage": "https://genmagic.co/?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms",
 	"keywords": [
@@ -15,6 +15,11 @@
 		"music-generation",
 		"text-to-image",
 		"text-to-video",
+		"ai-video",
+		"tts",
+		"veo",
+		"kling",
+		"flux",
 		"llm"
 	],
 	"author": {

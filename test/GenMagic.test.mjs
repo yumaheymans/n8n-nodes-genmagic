@@ -378,3 +378,19 @@ test('models per operation: every version 2 model parameter is distinct, and ver
 	assert.equal(v1.length, 5);
 	assert.deepEqual(new GenMagic().description.version, [1, 2]);
 });
+
+test('codex: declared in the description, which is all n8n lists and searches, and equal to GenMagic.node.json', () => {
+	const { codex } = new GenMagic().description;
+	const { node, nodeVersion, codexVersion, ...fromFile } = require('../dist/nodes/GenMagic/GenMagic.node.json');
+	assert.equal(node, 'n8n-nodes-genmagic.genMagic');
+	assert.equal(nodeVersion, '1.0');
+	assert.equal(codexVersion, '1.0');
+	assert.deepEqual(fromFile, codex);
+	// The nodes panel matches a search against the display name and these aliases only.
+	for (const word of ['image', 'video', 'tts', 'music', 'text to speech']) {
+		assert.ok(codex.alias.includes(word), `alias ${word}`);
+	}
+	assert.equal(new Set(codex.alias.map((a) => a.toLowerCase())).size, codex.alias.length, 'no duplicate aliases');
+	assert.ok(codex.categories.includes('AI'));
+	assert.ok(codex.resources.primaryDocumentation[0].url.startsWith('https://genmagic.co/developers'));
+});

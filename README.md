@@ -2,7 +2,7 @@
 
 This is an n8n community node. It lets you use [GenMagic](https://genmagic.co/?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms) in your n8n workflows.
 
-GenMagic gives you one API key and one pay-as-you-go balance for 450+ AI models from every major lab: images (GPT Image, FLUX, Seedream, Recraft and more), video (Sora, Veo, Seedance, Hailuo and more), speech, music and text. Pick a model per step, or let GenMagic pick one for you, and get the generated file straight into your workflow.
+GenMagic gives you one API key and one pay-as-you-go balance for 450+ AI models from every major lab: images (GPT Image, Nano Banana, FLUX, Seedream, Recraft and more), video (Veo, Kling, Seedance, Hailuo, Runway and more), speech, music and text. Pick a model per step, or let GenMagic pick one for you, and get the generated file straight into your workflow.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/n8n-community-license/community-license/) workflow automation platform.
 
@@ -17,7 +17,9 @@ GenMagic gives you one API key and one pay-as-you-go balance for 450+ AI models 
 
 ## Installation
 
-Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation-and-management/gui-installation/) in the n8n community nodes documentation and install the package `n8n-nodes-genmagic`.
+GenMagic is a verified community node, so it installs from the nodes panel on n8n Cloud and on self-hosted n8n: open the nodes panel, search for GenMagic (or for what you want to make, such as video or text to speech), select it under More from the community and select Install. See n8n's guide to [installing verified community nodes](https://docs.n8n.io/integrations/community-nodes/installation/verified-install/); an instance owner or admin installs it once for everyone on the instance.
+
+On self-hosted n8n you can also follow the [GUI installation guide](https://docs.n8n.io/integrations/community-nodes/installation-and-management/gui-installation/) and install the package `n8n-nodes-genmagic` from Settings > Community Nodes.
 
 ## Operations
 

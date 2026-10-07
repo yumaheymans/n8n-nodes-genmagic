@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.4 (2026-10-08)
+
+- The codex (categories, docs links and search aliases) is now declared in the node's description. n8n builds the verified-node listing that its nodes panel searches from the description alone, so the aliases kept only in GenMagic.node.json never reached it, and a search for "video" or "text to speech" did not show GenMagic under More from the community. GenMagic.node.json repeats the same values, and a test keeps the two equal.
+- Categories: AI (with the subcategories n8n's own multimodal vendor nodes use) and Marketing & Content. Aliases name the media the node makes and the model families GenMagic runs today (Veo, Kling, Seedance, Hailuo, Runway, Nano Banana, GPT Image, FLUX, Seedream, Recraft, Lyria); Sora is gone, since GenMagic no longer offers it.
+- The node's docs links point to GenMagic's n8n and authentication docs.
+- README: installing from the nodes panel as a verified community node.
+
 ## 0.1.3 (2026-10-02)
 
 - Node version 2: each operation has its own model parameter (imageModel, videoModel, speechModel, musicModel, textModel). Version 1 shared one `model` parameter, and n8n keeps a parameter's value when only its display conditions change, so switching a node from Image to Audio sent the image model to the speech endpoint. Nodes saved as version 1 keep `model` and run unchanged.

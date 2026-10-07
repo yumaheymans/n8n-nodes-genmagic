@@ -2,39 +2,48 @@
 	"node": "n8n-nodes-genmagic.genMagic",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
-	"categories": ["Marketing & Content", "Productivity"],
+	"categories": ["AI", "Marketing & Content"],
+	"subcategories": {
+		"AI": ["Agents", "Miscellaneous", "Root Nodes"]
+	},
 	"resources": {
-		"credentialDocumentation": [
-			{
-				"url": "https://github.com/yumaheymans/n8n-nodes-genmagic#credentials"
-			}
-		],
 		"primaryDocumentation": [
 			{
-				"url": "https://github.com/yumaheymans/n8n-nodes-genmagic#readme"
+				"url": "https://genmagic.co/developers?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms#n8n"
+			}
+		],
+		"credentialDocumentation": [
+			{
+				"url": "https://genmagic.co/developers?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms#auth"
 			}
 		]
 	},
 	"alias": [
+		"image",
+		"video",
+		"audio",
+		"speech",
+		"tts",
+		"voice",
+		"music",
+		"text to image",
+		"text to video",
+		"text to speech",
 		"AI image generator",
-		"Text to image",
-		"Image generation",
-		"Image editing",
+		"image generation",
+		"image editing",
 		"AI video generator",
-		"Text to video",
-		"Video generation",
-		"Text to speech",
-		"TTS",
-		"Voiceover",
-		"AI music generator",
-		"Music generation",
-		"Text generation",
+		"video generation",
+		"logo",
 		"LLM",
-		"Logo generator",
-		"Sora",
 		"Veo",
-		"FLUX",
+		"Kling",
+		"Seedance",
+		"Hailuo",
+		"Runway",
+		"Nano Banana",
 		"GPT Image",
+		"FLUX",
 		"Seedream",
 		"Recraft",
 		"Lyria"

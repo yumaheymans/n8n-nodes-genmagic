@@ -32,6 +32,58 @@ const MAX_REFERENCE_BYTES = 10 * 1024 * 1024;
 
 type Output = { json: IDataObject; file?: { data: Buffer; mimeType: string; stem: string } };
 
+const DOCS =
+	'https://genmagic.co/developers?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms';
+
+/**
+ * The node's categories, docs links and search aliases. n8n's nodes panel finds a node by its
+ * display name and these aliases only (never its description), and n8n builds the verified-node
+ * listing that n8n Cloud searches before a node is installed from this description object alone.
+ * A codex kept only in GenMagic.node.json reaches installed copies but leaves that listing with
+ * no aliases, so a search for "video" or "tts" never showed GenMagic. GenMagic.node.json repeats
+ * these values for tools that read codex files, and a test keeps the two identical.
+ * Model names here are model families GenMagic's catalog runs today: drop one when it leaves.
+ */
+const GENMAGIC_CODEX: NonNullable<INodeTypeDescription['codex']> = {
+	categories: ['AI', 'Marketing & Content'],
+	// The subcategories n8n's own multimodal vendor nodes (OpenAI, Google Gemini, MiniMax) use.
+	subcategories: { AI: ['Agents', 'Miscellaneous', 'Root Nodes'] },
+	resources: {
+		primaryDocumentation: [{ url: `${DOCS}#n8n` }],
+		credentialDocumentation: [{ url: `${DOCS}#auth` }],
+	},
+	alias: [
+		'image',
+		'video',
+		'audio',
+		'speech',
+		'tts',
+		'voice',
+		'music',
+		'text to image',
+		'text to video',
+		'text to speech',
+		'AI image generator',
+		'image generation',
+		'image editing',
+		'AI video generator',
+		'video generation',
+		'logo',
+		'LLM',
+		'Veo',
+		'Kling',
+		'Seedance',
+		'Hailuo',
+		'Runway',
+		'Nano Banana',
+		'GPT Image',
+		'FLUX',
+		'Seedream',
+		'Recraft',
+		'Lyria',
+	],
+};
+
 export class GenMagic implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'GenMagic',
@@ -42,6 +94,7 @@ export class GenMagic implements INodeType {
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description:
 			'Generate images, video, music, speech and text with 450+ AI models through one GenMagic API key',
+		codex: GENMAGIC_CODEX,
 		defaults: {
 			name: 'GenMagic',
 		},
