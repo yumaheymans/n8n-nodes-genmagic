@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.6 (2026-10-28)
+
+- Video: Opening Image (a binary field or a URL) makes the clip open on that image, the image-to-video GenMagic's API takes since October 12.
+- Video: Reference Images (binary fields and URLs, up to 9) keep characters, products and props consistent through the clip, on the video models made for it (Model > Get shows `references`). A clip follows references or opens on an image, not both.
+
 ## 0.1.5 (2026-10-08)
 
 - Categories back to Marketing & Content and Productivity, with no subcategories. n8n's community package scan accepts only its community node categories, and AI is not one of them, so 0.1.4 failed the scan that n8n runs before it ships a version. The search aliases from 0.1.4 stay, and the codex test now checks the categories against n8n's list.

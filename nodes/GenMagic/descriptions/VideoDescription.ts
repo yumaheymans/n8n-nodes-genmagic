@@ -81,6 +81,40 @@ export const videoFields: INodeProperties[] = [
 					'Whether to add sound to the clip, on models that support it (this can double the price)',
 			},
 			{
+				displayName: 'Opening Image (Binary Field)',
+				name: 'openingImageField',
+				type: 'string',
+				default: '',
+				placeholder: 'e.g. data',
+				description:
+					'The binary field of an image the clip opens on (image-to-video); the prompt then describes the motion. For models whose frame_images include first_frame (listed by Model > Get).',
+			},
+			{
+				displayName: 'Opening Image URL',
+				name: 'openingImageUrl',
+				type: 'string',
+				default: '',
+				placeholder: 'https://example.com/first-frame.png',
+				description: 'An image URL the clip opens on, used when no opening image field is set',
+			},
+			{
+				displayName: 'Reference Image URLs',
+				name: 'referenceImageUrls',
+				type: 'string',
+				default: '',
+				placeholder: 'https://example.com/character.png, https://example.com/product.png',
+				description: 'Comma-separated image URLs to keep consistent, added to the reference image fields',
+			},
+			{
+				displayName: 'Reference Images (Binary Fields)',
+				name: 'referenceImageFields',
+				type: 'string',
+				default: '',
+				placeholder: 'e.g. character, product',
+				description:
+					'Comma-separated binary fields with images of characters, products or props the clip keeps consistent, none of them a frame of it. Say who is who in the prompt. Up to 9 images with the URLs below; not combined with an opening image. Models made for it have references set to true (Model > Get).',
+			},
+			{
 				displayName: 'Resolution',
 				name: 'resolution',
 				type: 'string',

@@ -26,7 +26,7 @@ On self-hosted n8n you can also follow the [GUI installation guide](https://docs
 | Resource | Operation | What it does |
 | --- | --- | --- |
 | Image | Generate | Generate an image from a prompt, or edit a reference image (from a binary field or a URL). Choose the size, up to 4 images per run, or steer the model toward a logo. |
-| Video | Generate | Generate a video clip from a prompt with any text-to-video model. Set the aspect ratio, length, resolution and sound. The node waits for the render (up to a limit you set) and returns the clip. |
+| Video | Generate | Generate a video clip from a prompt with any text-to-video model, open it on an image of yours, or keep characters, products and props consistent with reference images. Set the aspect ratio, length, resolution and sound. The node waits for the render (up to a limit you set) and returns the clip. |
 | Video | Get | Get a video job by ID, with the clip once it is ready. Use it after Generate with Wait for Completion turned off, for example after a Wait node. |
 | Audio | Generate Speech | Turn text into spoken audio, with a choice of voice on models that offer several. |
 | Audio | Generate Music | Generate an original music track from a description of its genre, mood, instruments and tempo. |
@@ -50,6 +50,8 @@ The node can also be used as a tool by n8n's AI Agent, which then receives each 
 - **Model**: each generating operation has a model dropdown that lists GenMagic's live catalog, newest first, with each model's price. New models appear on their own. Choose **Auto** to let GenMagic pick a well-priced default, or set a model ID with an expression (Model > Get Many lists every ID).
 - **Video**: rendering takes from a few seconds to a few minutes. With **Wait for Completion** on (the default), the node waits up to **Max Wait Time** and returns the clip. If the clip is still rendering by then, or if you turn waiting off, the node returns the job ID, and **Video > Get** fetches the clip later. A video is billed once, when it completes, and a failed render is never billed.
 - **Editing an image**: add the **Reference Image (Binary Field)** option and name the input field that holds the image, for example `data`, then describe the change in the prompt.
+- **Animating an image**: on Video > Generate, add **Opening Image** (a binary field or a URL) and the clip opens on that image; the prompt describes the motion. For a spoken line, pick a video model with sound and put the words in quotes.
+- **Keeping characters consistent**: add **Reference Images** (comma-separated binary fields, URLs, or both, up to 9) with your characters, products or props, and say who is who in the prompt ("the doctor from the first image walks through the door from the second"). A clip follows references or opens on an image, not both. Model > Get shows `references: true` on the models made for it; with the model on Auto, one of them is chosen.
 - **Output field**: generated files go into the binary field named in **Put Output File in Field** (`data` by default).
 
 Example workflow ideas:
@@ -57,10 +59,12 @@ Example workflow ideas:
 - Turn new rows in a spreadsheet into product images and upload them to cloud storage.
 - Write a short script with Text > Generate, voice it with Audio > Generate Speech, and add a clip from Video > Generate.
 - Give an AI Agent the GenMagic node as a tool so it can make images and videos on request.
+- Make UGC-style video ads from a product feed: Image > Generate puts each product photo in a creator's hands, then Video > Generate with that image as the Opening Image and a model with sound has the creator say your line. A worked example with its exact prompts is at [genmagic.co/ugc-ads](https://genmagic.co/ugc-ads?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms).
+- Produce a series with recurring characters: keep each character's image in a binary field and pass it as a Reference Image on every shot.
 
 ## Pricing
 
-The node is free. Generations are billed to your GenMagic balance. The model dropdowns show each model's listed price (per 1M tokens for text, per image, per minute of speech, and the lowest per-second rate for video); the exact amount a generation cost comes back with its result as `cost_usd`, together with your remaining balance as `balance_usd`. Add credits at [genmagic.co/pricing](https://genmagic.co/pricing?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms).
+The node is free. Generations are billed to your GenMagic balance. The model dropdowns show each model's listed price (per 1M tokens for text, per image, per minute of speech, and the lowest per-second rate for video); the exact amount a generation cost comes back with its result as `cost_usd`, together with your remaining balance as `balance_usd`. Every model's price, side by side, is on [video API pricing](https://genmagic.co/video-api-pricing?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms) and [image API pricing](https://genmagic.co/image-api-pricing?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms). Add credits at [genmagic.co/pricing](https://genmagic.co/pricing?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms).
 
 If a run fails with "Your GenMagic balance is too low for this generation", add credits and run it again. Nothing is billed for a request that is refused or fails.
 
@@ -77,6 +81,14 @@ Tested with n8n 2.41.6. The package has no runtime dependencies.
 - Support: hello@genmagic.co
 
 ## Version history
+
+### 0.1.6
+
+Video > Generate takes an **Opening Image** (image-to-video) and **Reference Images** that keep characters, products and props consistent through the clip.
+
+### 0.1.4 and 0.1.5
+
+GenMagic is found in the nodes panel by what it makes (video, image, text to speech, music) and by the model families it runs, and it is listed under Marketing & Content and Productivity.
 
 ### 0.1.3
 

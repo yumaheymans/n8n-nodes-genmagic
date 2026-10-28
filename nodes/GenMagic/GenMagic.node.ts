@@ -251,31 +251,47 @@ async function withFile(
 	return { json, file: { ...file, stem } };
 }
 
+/** The image option of a request: a binary field sent inline as a data URL, else a URL as given. */
+async function imageInput(
+	this: IExecuteFunctions,
+	i: number,
+	field: unknown,
+	url: unknown,
+	what: string,
+): Promise<string | undefined> {
+	const name = String(field ?? '').trim();
+	if (name) {
+		const binary = this.helpers.assertBinaryData(i, name);
+		if (!binary.mimeType?.startsWith('image/')) {
+			throw new NodeOperationError(
+				this.getNode(),
+				`The ${what} in field "${name}" is not an image (it is ${binary.mimeType || 'unknown'})`,
+				{ itemIndex: i },
+			);
+		}
+		const buffer = await this.helpers.getBinaryDataBuffer(i, name);
+		if (buffer.length > MAX_REFERENCE_BYTES) {
+			throw new NodeOperationError(this.getNode(), `The ${what} is larger than 10 MB`, { itemIndex: i });
+		}
+		return `data:${binary.mimeType};base64,${buffer.toString('base64')}`;
+	}
+	return String(url ?? '').trim() || undefined;
+}
+
+/** A comma- or line-separated list option, as its trimmed entries. */
+function listOf(value: unknown): string[] {
+	return String(value ?? '')
+		.split(/[\n,]/)
+		.map((entry) => entry.trim())
+		.filter(Boolean);
+}
+
 async function referenceImage(
 	this: IExecuteFunctions,
 	i: number,
 	options: IDataObject,
 ): Promise<string | undefined> {
-	const field = String(options.referenceImageField ?? '').trim();
-	if (field) {
-		const binary = this.helpers.assertBinaryData(i, field);
-		if (!binary.mimeType?.startsWith('image/')) {
-			throw new NodeOperationError(
-				this.getNode(),
-				`The reference image in field "${field}" is not an image (it is ${binary.mimeType || 'unknown'})`,
-				{ itemIndex: i },
-			);
-		}
-		const buffer = await this.helpers.getBinaryDataBuffer(i, field);
-		if (buffer.length > MAX_REFERENCE_BYTES) {
-			throw new NodeOperationError(this.getNode(), 'The reference image is larger than 10 MB', {
-				itemIndex: i,
-			});
-		}
-		return `data:${binary.mimeType};base64,${buffer.toString('base64')}`;
-	}
-	const url = String(options.referenceImageUrl ?? '').trim();
-	return url || undefined;
+	return await imageInput.call(this, i, options.referenceImageField, options.referenceImageUrl, 'reference image');
 }
 
 async function generateImage(this: IExecuteFunctions, i: number): Promise<Output[]> {
@@ -337,6 +353,17 @@ async function generateVideo(this: IExecuteFunctions, i: number): Promise<Output
 		body.resolution = options.resolution.trim();
 	}
 	if (typeof options.generate_audio === 'boolean') body.generate_audio = options.generate_audio;
+	const opening = await imageInput.call(this, i, options.openingImageField, options.openingImageUrl, 'opening image');
+	if (opening) body.image = opening;
+	const references = [
+		...(await Promise.all(
+			listOf(options.referenceImageFields).map(
+				async (field) => (await imageInput.call(this, i, field, '', 'reference image')) as string,
+			),
+		)),
+		...listOf(options.referenceImageUrls),
+	];
+	if (references.length) body.references = references;
 
 	const { body: created } = await genMagicRequest.call(this, 'POST', '/api/v1/videos', {
 		body,

@@ -399,3 +399,34 @@ test('codex: declared in the description, which is all n8n lists and searches, a
 	assert.equal(codex.subcategories, undefined, 'subcategories place a node in n8n sections reserved for its own nodes');
 	assert.ok(codex.resources.primaryDocumentation[0].url.startsWith('https://genmagic.co/developers'));
 });
+
+test('video: an opening image and reference images are sent as image and references', async () => {
+	const jpeg = Buffer.from('JPEG').toString('base64');
+	const { ctx, calls } = context({
+		params: {
+			resource: 'video',
+			operation: 'generate',
+			prompt: 'the doctor walks through the door',
+			waitForCompletion: false,
+			options: { referenceImageFields: 'doctor, door', referenceImageUrls: 'https://example.com/a.png,\nhttps://example.com/b.png' },
+		},
+		binary: { doctor: { mimeType: 'image/jpeg', data: jpeg }, door: { mimeType: 'image/png', data: jpeg } },
+		api: [{ body: { id: 'job_9', status: 'queued', model: 'm' } }],
+	});
+	await run(ctx);
+	assert.deepEqual(calls[0].body.references, [
+		`data:image/jpeg;base64,${jpeg}`,
+		`data:image/png;base64,${jpeg}`,
+		'https://example.com/a.png',
+		'https://example.com/b.png',
+	]);
+	assert.equal(calls[0].body.image, undefined);
+
+	const opening = context({
+		params: { resource: 'video', operation: 'generate', prompt: 'it drifts', waitForCompletion: false, options: { openingImageUrl: 'https://example.com/start.png' } },
+		api: [{ body: { id: 'job_10', status: 'queued', model: 'm' } }],
+	});
+	await run(opening.ctx);
+	assert.equal(opening.calls[0].body.image, 'https://example.com/start.png');
+	assert.equal(opening.calls[0].body.references, undefined);
+});
