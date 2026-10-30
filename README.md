@@ -54,6 +54,8 @@ The node can also be used as a tool by n8n's AI Agent, which then receives each 
 - **Keeping characters consistent**: add **Reference Images** (comma-separated binary fields, URLs, or both, up to 9) with your characters, products or props, and say who is who in the prompt ("the doctor from the first image walks through the door from the second"). A clip follows references or opens on an image, not both. Model > Get shows `references: true` on the models made for it; with the model on Auto, one of them is chosen.
 - **Output field**: generated files go into the binary field named in **Put Output File in Field** (`data` by default).
 
+Ready-made workflows you can paste into n8n, each tested against the live API with its cost, are at [genmagic.co/n8n](https://genmagic.co/n8n?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms): a faceless YouTube Short (script, a vertical image and a voiceover for every scene) and a UGC video ad from a product photo.
+
 Example workflow ideas:
 
 - Turn new rows in a spreadsheet into product images and upload them to cloud storage.
@@ -81,6 +83,10 @@ Tested with n8n 2.41.6. The package has no runtime dependencies.
 - Support: hello@genmagic.co
 
 ## Version history
+
+### 0.1.7
+
+GenMagic also shows up in the nodes panel for the model families it now runs (HeyGen, Wan, Grok Imagine, Gemini image, Qwen Image) and for what people make with it (image to video, avatar and talking-head clips, voiceovers, YouTube Shorts, faceless video, UGC). The README links to ready-made workflows.
 
 ### 0.1.6
 

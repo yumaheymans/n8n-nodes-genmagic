@@ -42,7 +42,8 @@ const DOCS =
  * A codex kept only in GenMagic.node.json reaches installed copies but leaves that listing with
  * no aliases, so a search for "video" or "tts" never showed GenMagic. GenMagic.node.json repeats
  * these values for tools that read codex files, and a test keeps the two identical.
- * Model names here are model families GenMagic's catalog runs today: drop one when it leaves.
+ * Model names here are model families GenMagic's catalog runs today: drop one when it leaves. The task
+ * aliases name what n8n users make with the node (faceless Shorts, UGC ads, voiceovers, avatar clips).
  */
 const GENMAGIC_CODEX: NonNullable<INodeTypeDescription['codex']> = {
 	// Only n8n's community node categories pass its package scan (AI is reserved for n8n's own nodes).
@@ -80,6 +81,18 @@ const GENMAGIC_CODEX: NonNullable<INodeTypeDescription['codex']> = {
 		'Seedream',
 		'Recraft',
 		'Lyria',
+		'HeyGen',
+		'Wan',
+		'Grok Imagine',
+		'Gemini Image',
+		'Qwen Image',
+		'image to video',
+		'avatar',
+		'talking head',
+		'voiceover',
+		'YouTube Shorts',
+		'faceless video',
+		'UGC',
 	],
 };
 

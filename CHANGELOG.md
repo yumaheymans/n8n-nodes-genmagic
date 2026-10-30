@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.7 (unreleased)
+
+- Search aliases for the model families GenMagic's catalog runs today and did not name yet (HeyGen, Wan, Grok Imagine, Gemini Image, Qwen Image), and for what n8n users make with the node (image to video, avatar, talking head, voiceover, YouTube Shorts, faceless video, UGC). n8n's nodes panel matches a community node on its display name and aliases only.
+- README: links the ready-made, tested workflows at genmagic.co/n8n.
+
 ## 0.1.6 (2026-10-28)
 
 - Video: Opening Image (a binary field or a URL) makes the clip open on that image, the image-to-video GenMagic's API takes since October 12.
