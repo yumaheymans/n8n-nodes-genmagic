@@ -41,9 +41,8 @@ The node can also be used as a tool by n8n's AI Agent, which then receives each 
 
 ## Credentials
 
-1. Create a free GenMagic account at [genmagic.co](https://genmagic.co/?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms) and verify your email address. New accounts start with a small free credit.
-2. Open [genmagic.co/developers](https://genmagic.co/developers?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms) and create an API key.
-3. In n8n, create a **GenMagic API** credential and paste the key. n8n checks it by reading your balance, which costs nothing.
+1. Open [genmagic.co/get-api-key](https://genmagic.co/get-api-key?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms). It takes you through a free account and email verification to your API key. New accounts start with a small free credit.
+2. In n8n, create a **GenMagic API** credential and paste the key. n8n checks it by reading your balance, which costs nothing.
 
 ## Usage
 

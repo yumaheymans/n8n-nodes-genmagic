@@ -17,7 +17,7 @@ export class GenMagicApi implements ICredentialType {
 	};
 
 	documentationUrl =
-		'https://genmagic.co/developers?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms';
+		'https://genmagic.co/get-api-key?utm_source=n8n&utm_medium=credential&utm_campaign=agent-platforms';
 
 	properties: INodeProperties[] = [
 		{
@@ -28,7 +28,7 @@ export class GenMagicApi implements ICredentialType {
 			required: true,
 			default: '',
 			description:
-				'Your GenMagic API key. Create one for free at genmagic.co/developers; generations are billed to your GenMagic balance.',
+				'Your GenMagic API key. Create one for free at genmagic.co/get-api-key; generations are billed to your GenMagic balance.',
 		},
 	];
 

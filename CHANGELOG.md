@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.1.7 (unreleased)
+## 0.1.8 (unreleased)
+
+- Search aliases for how people phrase what they want in the nodes panel (generate image, generate video, create image, create video, image generator, video generator, AI art, thumbnail, product photo) and for model generations by number (Veo 3, Kling 3, Seedance 2, FLUX 3).
+- The credential, its help text, the wrong-key error and the README now send people to genmagic.co/get-api-key, which goes straight through sign-up and email verification to the key, instead of the API docs.
+
+## 0.1.7 (2026-11-01)
 
 - Search aliases for the model families GenMagic's catalog runs today and did not name yet (HeyGen, Wan, Grok Imagine, Gemini Image, Qwen Image), and for what n8n users make with the node (image to video, avatar, talking head, voiceover, YouTube Shorts, faceless video, UGC). n8n's nodes panel matches a community node on its display name and aliases only.
 - README: links the ready-made, tested workflows at genmagic.co/n8n.

@@ -2,7 +2,10 @@
 	"node": "n8n-nodes-genmagic.genMagic",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
-	"categories": ["Marketing & Content", "Productivity"],
+	"categories": [
+		"Marketing & Content",
+		"Productivity"
+	],
 	"resources": {
 		"primaryDocumentation": [
 			{
@@ -55,6 +58,19 @@
 		"voiceover",
 		"YouTube Shorts",
 		"faceless video",
-		"UGC"
+		"UGC",
+		"generate image",
+		"generate video",
+		"create image",
+		"create video",
+		"image generator",
+		"video generator",
+		"AI art",
+		"thumbnail",
+		"product photo",
+		"Veo 3",
+		"Kling 3",
+		"Seedance 2",
+		"FLUX 3"
 	]
 }

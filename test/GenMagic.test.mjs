@@ -272,7 +272,7 @@ test('account: returns the balance', async () => {
 });
 
 for (const [status, body, message, hint] of [
-	[401, { error: { message: 'Invalid API key', code: 'invalid_api_key' } }, 'GenMagic rejected the API key', /genmagic\.co\/developers\?utm_source=n8n/],
+	[401, { error: { message: 'Invalid API key', code: 'invalid_api_key' } }, 'GenMagic rejected the API key', /genmagic\.co\/get-api-key\?utm_source=n8n/],
 	[402, { error: { message: 'Not enough credits', code: 'insufficient_credits' } }, 'Your GenMagic balance is too low for this generation', /genmagic\.co\/pricing/],
 	[403, { error: { message: 'Verify first', code: 'email_verification_required' } }, 'Verify the email address of your GenMagic account first', /verify-email/],
 	[429, { error: { message: 'Slow down', code: 'rate_limited' } }, 'GenMagic rate limit reached', /Wait a moment/],
