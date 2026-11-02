@@ -108,6 +108,7 @@ const GENMAGIC_CODEX: NonNullable<INodeTypeDescription['codex']> = {
 		'FLUX 3',
 		'MiniMax',
 		'Krea',
+		'HappyHorse',
 	],
 };
 
