@@ -20,7 +20,14 @@
 		"veo",
 		"kling",
 		"flux",
-		"llm"
+		"llm",
+		"seedance",
+		"wan",
+		"nano-banana",
+		"gpt-image",
+		"image-to-video",
+		"faceless-video",
+		"ugc-video"
 	],
 	"author": {
 		"name": "GenMagic",
