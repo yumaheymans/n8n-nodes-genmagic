@@ -121,7 +121,7 @@ export class GenMagic implements INodeType {
 		version: [1, 2],
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description:
-			'Generate images, video, music, speech and text with 450+ AI models through one GenMagic API key',
+			'Generate images, video, music, speech and text with 450+ AI models (Veo, Kling, Seedance, Wan, Nano Banana, FLUX, GPT Image) through one GenMagic API key',
 		codex: GENMAGIC_CODEX,
 		defaults: {
 			name: 'GenMagic',
