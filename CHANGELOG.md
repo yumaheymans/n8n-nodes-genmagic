@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.8 (unreleased)
+## 0.1.8 (2026-11-03)
 
-- Search aliases for how people phrase what they want in the nodes panel (generate image, generate video, create image, create video, image generator, video generator, AI art, thumbnail, product photo) and for model generations by number (Veo 3, Kling 3, Seedance 2, FLUX 3).
+- Search aliases for how people phrase what they want in the nodes panel (generate image, generate video, create image, create video, image generator, video generator, AI art, thumbnail, product photo) and for model generations by number (Veo 3, Kling 3, Seedance 2, FLUX 3), plus MiniMax (Hailuo's maker) and Krea.
 - The credential, its help text, the wrong-key error and the README now send people to genmagic.co/get-api-key, which goes straight through sign-up and email verification to the key, instead of the API docs.
 
 ## 0.1.7 (2026-11-01)
