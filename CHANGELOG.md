@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.9 (2026-11-04)
+
+- Search aliases are back to the set n8n approved in 0.1.6 (the media GenMagic makes and its best-known model families), as n8n's review of 0.1.8 asked: the vendor product names and generic phrases added in 0.1.7 and 0.1.8 are gone. The node description and README still name the models GenMagic runs.
+- Everything else from 0.1.7 and 0.1.8 stays: the description that names the model families, the README links to the GenMagic templates in n8n's library, and the credential help that goes straight to genmagic.co/get-api-key.
+
 ## 0.1.8 (2026-11-03)
 
 - Search aliases for how people phrase what they want in the nodes panel (generate image, generate video, create image, create video, image generator, video generator, AI art, thumbnail, product photo) and for model generations by number (Veo 3, Kling 3, Seedance 2, FLUX 3), plus MiniMax (Hailuo's maker), Krea and HappyHorse.

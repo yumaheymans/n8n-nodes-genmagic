@@ -42,8 +42,9 @@ const DOCS =
  * A codex kept only in GenMagic.node.json reaches installed copies but leaves that listing with
  * no aliases, so a search for "video" or "tts" never showed GenMagic. GenMagic.node.json repeats
  * these values for tools that read codex files, and a test keeps the two identical.
- * Model names here are model families GenMagic's catalog runs today: drop one when it leaves. The task
- * aliases name what n8n users make with the node (faceless Shorts, UGC ads, voiceovers, avatar clips).
+ * n8n's review (2026-11-03) asks that aliases describe GenMagic itself: the media it makes and the model
+ * families it is known for, never more vendors' product names or generic phrases that repeat an alias
+ * (those belong in the description and README). This is the set n8n approved in 0.1.6.
  */
 const GENMAGIC_CODEX: NonNullable<INodeTypeDescription['codex']> = {
 	// Only n8n's community node categories pass its package scan (AI is reserved for n8n's own nodes).
@@ -81,34 +82,6 @@ const GENMAGIC_CODEX: NonNullable<INodeTypeDescription['codex']> = {
 		'Seedream',
 		'Recraft',
 		'Lyria',
-		'HeyGen',
-		'Wan',
-		'Grok Imagine',
-		'Gemini Image',
-		'Qwen Image',
-		'image to video',
-		'avatar',
-		'talking head',
-		'voiceover',
-		'YouTube Shorts',
-		'faceless video',
-		'UGC',
-		'generate image',
-		'generate video',
-		'create image',
-		'create video',
-		'image generator',
-		'video generator',
-		'AI art',
-		'thumbnail',
-		'product photo',
-		'Veo 3',
-		'Kling 3',
-		'Seedance 2',
-		'FLUX 3',
-		'MiniMax',
-		'Krea',
-		'HappyHorse',
 	],
 };
 
