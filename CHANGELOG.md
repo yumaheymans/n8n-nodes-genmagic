@@ -4,6 +4,7 @@
 
 - Search aliases for how people phrase what they want in the nodes panel (generate image, generate video, create image, create video, image generator, video generator, AI art, thumbnail, product photo) and for model generations by number (Veo 3, Kling 3, Seedance 2, FLUX 3), plus MiniMax (Hailuo's maker), Krea and HappyHorse.
 - The node's description names the model families (Veo, Kling, Seedance, Wan, Nano Banana, FLUX, GPT Image): it shows under the name in the nodes panel, and tools that index n8n nodes for AI assistants (n8n-mcp) search it, where a search for a model name found no GenMagic before.
+- README: links the four GenMagic templates in n8n's own template library (one-click import).
 - The credential, its help text, the wrong-key error and the README now send people to genmagic.co/get-api-key, which goes straight through sign-up and email verification to the key, instead of the API docs.
 
 ## 0.1.7 (2026-11-01)

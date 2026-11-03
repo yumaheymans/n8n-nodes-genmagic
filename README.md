@@ -55,6 +55,13 @@ The node can also be used as a tool by n8n's AI Agent, which then receives each 
 
 Ready-made workflows you can paste into n8n, each tested against the live API with its cost, are at [genmagic.co/n8n](https://genmagic.co/n8n?utm_source=n8n&utm_medium=integration&utm_campaign=agent-platforms): a faceless YouTube Short (script, a vertical image and a voiceover for every scene) and a UGC video ad from a product photo.
 
+Templates in n8n's own library, imported into n8n with one click:
+
+- [Faceless YouTube Shorts in any language](https://n8n.io/workflows/22097)
+- [Consistent-character episodes from a form](https://n8n.io/workflows/22248)
+- [Articles into Instagram and LinkedIn carousels](https://n8n.io/workflows/22250)
+- [UGC video ad variants from Google Sheets](https://n8n.io/workflows/22251)
+
 Example workflow ideas:
 
 - Turn new rows in a spreadsheet into product images and upload them to cloud storage.
