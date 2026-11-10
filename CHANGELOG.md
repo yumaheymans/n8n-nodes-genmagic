@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.10 (unreleased)
+
+- Video > Generate waits up to 600 seconds by default (was 300). Measured on GenMagic over 30 days, Wan 3.0 clips take 337 seconds at the median and 390 at the 90th percentile, so with the old default most Wan 3.0 runs returned "still rendering" and a job ID instead of the clip. The field's description now says most clips finish in two to seven minutes.
+
 ## 0.1.9 (2026-11-04)
 
 - Search aliases are back to the set n8n approved in 0.1.6 (the media GenMagic makes and its best-known model families), as n8n's review of 0.1.8 asked: the vendor product names and generic phrases added in 0.1.7 and 0.1.8 are gone. The node description and README still name the models GenMagic runs.
