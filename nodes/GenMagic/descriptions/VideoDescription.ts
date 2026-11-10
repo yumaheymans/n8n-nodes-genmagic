@@ -138,9 +138,9 @@ export const videoFields: INodeProperties[] = [
 		name: 'maxWaitTime',
 		type: 'number',
 		typeOptions: { minValue: 10 },
-		default: 300,
+		default: 600,
 		description:
-			'How long to wait for the clip. If it is still rendering by then, the node returns the job ID for Video > Get.',
+			'How long to wait for the clip. Most clips finish in two to seven minutes; a long take can take longer. If it is still rendering by then, the node returns the job ID for Video > Get.',
 		displayOptions: { show: { ...generate, waitForCompletion: [true] } },
 	},
 	{

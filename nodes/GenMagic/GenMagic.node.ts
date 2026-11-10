@@ -387,7 +387,7 @@ async function generateVideo(this: IExecuteFunctions, i: number): Promise<Output
 		};
 	}
 
-	const maxWaitMs = Math.max(10, this.getNodeParameter('maxWaitTime', i, 300) as number) * 1000;
+	const maxWaitMs = Math.max(10, this.getNodeParameter('maxWaitTime', i, 600) as number) * 1000;
 	const deadline = Date.now() + maxWaitMs;
 	let current: IDataObject = job;
 	let headers: IDataObject = {};
