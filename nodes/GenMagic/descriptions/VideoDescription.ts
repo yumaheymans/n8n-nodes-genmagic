@@ -74,6 +74,23 @@ export const videoFields: INodeProperties[] = [
 					"Clip length. Each model supports its own lengths (listed by Model > Get); leave this out to use the model's default.",
 			},
 			{
+				displayName: 'End Image (Binary Field)',
+				name: 'endImageField',
+				type: 'string',
+				default: '',
+				placeholder: 'e.g. lastFrame',
+				description:
+					'The binary field of an image the clip ends on, with the opening image as its start: the clip goes from one to the other. For models whose frame_images include last_frame (listed by Model > Get). Not combined with reference images.',
+			},
+			{
+				displayName: 'End Image URL',
+				name: 'endImageUrl',
+				type: 'string',
+				default: '',
+				placeholder: 'https://example.com/last-frame.png',
+				description: 'An image URL the clip ends on, used when no end image field is set',
+			},
+			{
 				displayName: 'Generate Audio',
 				name: 'generate_audio',
 				type: 'boolean',

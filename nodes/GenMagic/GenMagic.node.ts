@@ -359,6 +359,9 @@ async function generateVideo(this: IExecuteFunctions, i: number): Promise<Output
 	if (typeof options.voice === 'string' && options.voice.trim()) body.voice = options.voice.trim();
 	const opening = await imageInput.call(this, i, options.openingImageField, options.openingImageUrl, 'opening image');
 	if (opening) body.image = opening;
+	// The picture the clip ends on, with the opening image as its start (models whose frame_images include last_frame).
+	const end = await imageInput.call(this, i, options.endImageField, options.endImageUrl, 'end image');
+	if (end) body.last_frame = end;
 	const references = [
 		...(await Promise.all(
 			listOf(options.referenceImageFields).map(

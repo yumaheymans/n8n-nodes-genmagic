@@ -430,6 +430,26 @@ test('video: an opening image and reference images are sent as image and referen
 	await run(opening.ctx);
 	assert.equal(opening.calls[0].body.image, 'https://example.com/start.png');
 	assert.equal(opening.calls[0].body.references, undefined);
+	assert.equal(opening.calls[0].body.last_frame, undefined);
+});
+
+test('video: an opening image and an end image are sent as image and last_frame', async () => {
+	const jpeg = Buffer.from('JPEG').toString('base64');
+	const { ctx, calls } = context({
+		params: {
+			resource: 'video',
+			operation: 'generate',
+			prompt: 'she steps into the train and sits down by the window',
+			waitForCompletion: false,
+			options: { openingImageUrl: 'https://example.com/platform.png', endImageField: 'compartment' },
+		},
+		binary: { compartment: { mimeType: 'image/jpeg', data: jpeg } },
+		api: [{ body: { id: 'job_11', status: 'queued', model: 'm' } }],
+	});
+	await run(ctx);
+	assert.equal(calls[0].body.image, 'https://example.com/platform.png');
+	assert.equal(calls[0].body.last_frame, `data:image/jpeg;base64,${jpeg}`);
+	assert.equal(calls[0].body.references, undefined);
 });
 
 test('video: a talking photo sends the portrait as the opening image and the voice by name', async () => {

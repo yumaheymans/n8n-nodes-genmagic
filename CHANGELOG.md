@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.12 (2026-11-12)
+
+- Video > Generate can end a clip on a picture: new End Image (Binary Field) and End Image URL options, sent with the opening image so the clip goes from one picture to the other (start and end frames). For models whose frame_images include last_frame (listed by Model > Get), such as Veo 3.1, Kling 3.0, Seedance 2.0 and 2.5, Wan 3.0 and Hailuo 3. Not combined with reference images.
+
 ## 0.1.11 (2026-11-11)
 
 - Talking-photo models such as HeyGen Avatar IV now appear in Video > Generate's model list: send a portrait as the opening image and the words as the prompt, and the person in the photo says them, lip-synced. The clip lasts as long as the words take to say.
