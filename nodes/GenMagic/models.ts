@@ -73,9 +73,11 @@ export function priceLabel(model: CatalogModel): string | undefined {
 	return undefined;
 }
 
-/** Whether a video model can make a clip from a text prompt (the only input this node sends). */
-export function makesVideoFromPrompt(model: CatalogModel): boolean {
-	return model.capabilities?.text_to_video !== false;
+/** Whether this node can run a video model: from a text prompt (and optionally an opening image), or a talking-photo
+ *  model (capabilities.talking_photo, such as HeyGen Avatar IV), which takes the opening image as the portrait and the
+ *  prompt as the words it says. Models that edit or upscale a video you supply are left out. */
+export function runsInVideoNode(model: CatalogModel): boolean {
+	return model.capabilities?.text_to_video !== false || model.capabilities?.talking_photo === true;
 }
 
 export function toOptions(models: CatalogModel[], autoDescription: string): INodePropertyOptions[] {
@@ -105,7 +107,7 @@ export async function getImageModels(this: ILoadOptionsFunctions): Promise<INode
 }
 
 export async function getVideoModels(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
-	const models = (await catalog.call(this, 'video')).filter(makesVideoFromPrompt);
+	const models = (await catalog.call(this, 'video')).filter(runsInVideoNode);
 	return toOptions(models, 'The recommended text-to-video model');
 }
 

@@ -1,6 +1,11 @@
 # Changelog
 
-## 0.1.10 (unreleased)
+## 0.1.11 (2026-11-11)
+
+- Talking-photo models such as HeyGen Avatar IV now appear in Video > Generate's model list: send a portrait as the opening image and the words as the prompt, and the person in the photo says them, lip-synced. The clip lasts as long as the words take to say.
+- New Voice option (Video > Generate > Options) for talking-photo models: a voice by name from the model's voices (listed by Model > Get), such as Cassidy or Otto, the same in every clip. Other models ignore it.
+
+## 0.1.10 (2026-11-10)
 
 - Video > Generate waits up to 600 seconds by default (was 300). Measured on GenMagic over 30 days, Wan 3.0 clips take 337 seconds at the median and 390 at the 90th percentile, so with the old default most Wan 3.0 runs returned "still rendering" and a job ID instead of the clip. The field's description now says most clips finish in two to seven minutes.
 

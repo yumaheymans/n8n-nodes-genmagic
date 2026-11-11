@@ -355,6 +355,8 @@ async function generateVideo(this: IExecuteFunctions, i: number): Promise<Output
 		body.resolution = options.resolution.trim();
 	}
 	if (typeof options.generate_audio === 'boolean') body.generate_audio = options.generate_audio;
+	// Talking-photo models: the voice that says the prompt (ignored by other models).
+	if (typeof options.voice === 'string' && options.voice.trim()) body.voice = options.voice.trim();
 	const opening = await imageInput.call(this, i, options.openingImageField, options.openingImageUrl, 'opening image');
 	if (opening) body.image = opening;
 	const references = [

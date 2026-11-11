@@ -314,6 +314,7 @@ const CATALOG = {
 			{ id: 'old/t2v', name: 'Old', created: 1, pricing: { unit: 'second', usd_per_unit: 0.05 }, capabilities: { text_to_video: true } },
 			{ id: 'bfl/edit', name: 'Edit', created: 3, pricing: { unit: 'second', usd_per_unit: 0.1 }, capabilities: { text_to_video: false } },
 			{ id: 'new/t2v', name: 'New', created: 2, pricing: { unit: 'second', usd_per_unit: 0.023056 }, capabilities: {} },
+			{ id: 'heygen/talker', name: 'Talker', created: 0, pricing: { unit: 'second', usd_per_unit: 0.075 }, capabilities: { text_to_video: false, talking_photo: true } },
 		],
 	},
 };
@@ -323,7 +324,7 @@ test('model dropdowns: Auto first, newest first, prices from the catalog, edit-o
 	const options = await new GenMagic().methods.loadOptions.getVideoModels.call(ctx);
 	assert.deepEqual(calls[0].qs, { category: 'video' });
 	assert.equal(publicCalls.length, 0);
-	assert.deepEqual(options.map((o) => o.value), ['auto', 'new/t2v', 'old/t2v']);
+	assert.deepEqual(options.map((o) => o.value), ['auto', 'new/t2v', 'old/t2v', 'heygen/talker'], 'a talking-photo model is listed, an edit-only model is not');
 	assert.equal(options[1].name, 'New ($0.0231/second)');
 });
 
@@ -337,7 +338,7 @@ test('model dropdowns: without a credential the catalog is read keyless', async 
 	assert.deepEqual(publicCalls[0].qs, { category: 'video' });
 	assert.equal(publicCalls[0].headers.Authorization, undefined);
 	assert.equal(publicCalls[0].headers['X-GenMagic-Client'], `n8n-node/${PACKAGE_JSON_VERSION}`);
-	assert.deepEqual(options.map((o) => o.value), ['auto', 'new/t2v', 'old/t2v']);
+	assert.deepEqual(options.map((o) => o.value), ['auto', 'new/t2v', 'old/t2v', 'heygen/talker']);
 });
 
 test('model dropdowns: a failed catalog read is a clear error', async () => {
@@ -429,4 +430,20 @@ test('video: an opening image and reference images are sent as image and referen
 	await run(opening.ctx);
 	assert.equal(opening.calls[0].body.image, 'https://example.com/start.png');
 	assert.equal(opening.calls[0].body.references, undefined);
+});
+
+test('video: a talking photo sends the portrait as the opening image and the voice by name', async () => {
+	const { ctx, calls } = context({
+		params: {
+			resource: 'video',
+			operation: 'generate',
+			prompt: 'Hi, this is Lena from the bakery.',
+			model: 'heygen/avatar-iv',
+			options: { openingImageUrl: 'https://example.com/lena.jpg', voice: ' Cassidy ' },
+			waitForCompletion: false,
+		},
+		api: [{ statusCode: 202, body: { id: 'job_t', status: 'queued', model: 'heygen/avatar-iv' } }],
+	});
+	await run(ctx);
+	assert.deepEqual(calls[0].body, { prompt: 'Hi, this is Lena from the bakery.', model: 'heygen/avatar-iv', image: 'https://example.com/lena.jpg', voice: 'Cassidy' });
 });

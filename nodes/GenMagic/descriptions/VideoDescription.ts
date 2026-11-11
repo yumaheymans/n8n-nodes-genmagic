@@ -39,7 +39,8 @@ export const videoFields: INodeProperties[] = [
 		required: true,
 		default: '',
 		placeholder: 'e.g. A slow dolly shot through a neon-lit night market in the rain',
-		description: 'What should happen in the clip',
+		description:
+			'What should happen in the clip. For a talking-photo model (such as HeyGen Avatar IV), the words the person in the opening image says, word for word.',
 		displayOptions: { show: generate },
 	},
 	...modelFields('videoModel', generate, 'getVideoModels', 'text-to-video'),
@@ -121,6 +122,15 @@ export const videoFields: INodeProperties[] = [
 				default: '',
 				placeholder: 'e.g. 720p',
 				description: 'Output resolution, on models that offer several (listed by Model > Get)',
+			},
+			{
+				displayName: 'Voice',
+				name: 'voice',
+				type: 'string',
+				default: '',
+				placeholder: 'e.g. Cassidy',
+				description:
+					"For talking-photo models (such as HeyGen Avatar IV): the voice that says the prompt, by name from the model's voices (listed by Model > Get), the same in every clip. Send the portrait as the opening image. Leave empty for the default multilingual voice.",
 			},
 		],
 	},
